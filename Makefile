@@ -1,13 +1,4 @@
-all: clean install
-	./program
+all: install 
 
-install: program
-
-clean:
-	rm -rf *.o program
-
-program: main.o
-	gcc -o program main.o
-
-main.o:
-	gcc -c main.c
+install:
+	gcc -g main.c -o main
