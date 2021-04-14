@@ -9,19 +9,75 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#define NUM_COLS 10
-#define NUM_ROWS 10
+#include<time.h>
 
 
 
 
 
-int main( int argc, char *argv[] )  {
-int N = 10;
-int Grid_World[N][N];
-double Fatality_Rate = 3/100;
-double Recover_Rate = 1- (3/100);
-double Initial_Active_Cases = 5/100;
+
+int main(int argc, char *argv[])
+{
+    int rows, cols, a, b, c, i, j, k, s, sizeOfGrid;
+    int Initial_Active_Cases;
+    
+    time_t t;
+
+
+ 
+    /* Input rows and columns from user */
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+    printf("Enter number of columns: ");
+    scanf("%d", &cols);
+
+    k = 1;
+    b=0; //array
+    int looprow;
+    int loopcol;
+
+    
+
+
+    printf("\n");
+    sizeOfGrid = rows * cols;
+    Initial_Active_Cases = sizeOfGrid * 5/100;
+   /* Intializes random number generator */
+   srand((unsigned) time(&t));
+
+   printf("Initial active cases %d, ", Initial_Active_Cases);
+   int u=0;
+
+   int arr[rows][cols];
+   int sizeOfArray = sizeof arr/ sizeof arr[0];
+  
+   for(looprow = 0; looprow < rows; looprow++){
+     
+      for(loopcol = 0; loopcol < cols; loopcol++){
+      int randomnumber = rand() % 2;
+      if(randomnumber==0 && u<Initial_Active_Cases){
+            arr[looprow][loopcol] = 0;
+            u++;
+      }else{
+             arr[looprow][loopcol] = 1;
+        }
+
+   }
+
+   }
+
+ 
+   int p,r; 
+   for(p = 0; p<rows; p++) 
+   { 
+     printf("\n"); 
+     for(r = 0; r<cols; r++) { 
+       printf("%d\t", arr[p][r]); 
+     } 
+   } 
+  
+    return 0;
+}
 
 
 
@@ -43,4 +99,4 @@ double Initial_Active_Cases = 5/100;
      // printf("Expected 4 arguments but only %d argument passed.\n", argc-1);
    //}
       
-}
+//}
