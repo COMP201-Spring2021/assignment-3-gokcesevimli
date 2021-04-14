@@ -71,18 +71,12 @@ int main(int argc, char *argv[])
 
     k = 1;
     b=0; //array
-  
-
-    
-
-
     printf("\n");
     sizeOfGrid = rows * cols;
     Initial_Active_Cases = sizeOfGrid * 5/100;
    /* Intializes random number generator */
    srand((unsigned) time(&t));
 
-   printf("Initial active cases %d, ", Initial_Active_Cases);
    int u=0;
 
    int arr[rows][cols];
@@ -92,7 +86,7 @@ int main(int argc, char *argv[])
    for(looprow = 0; looprow < rows; looprow++){
       for(loopcol = 0; loopcol < cols; loopcol++){
             arr[looprow][loopcol] = 1;
-            kzck[looprow][loopcol] =-1;
+            kzck[looprow][loopcol] =-1; //keeps the number of cycles.
         
     }
    }
