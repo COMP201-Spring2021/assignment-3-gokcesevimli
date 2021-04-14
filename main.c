@@ -15,13 +15,6 @@
 #define Fatality_Rate 3/100;
 #define Recover_Rate 97/100;
 
- 
-
-
-
-
-
-
 int main(int argc, char *argv[])
 {
   double Social_Distancing;
@@ -78,8 +71,7 @@ int main(int argc, char *argv[])
 
     k = 1;
     b=0; //array
-    int looprow;
-    int loopcol;
+  
 
     
 
@@ -94,35 +86,153 @@ int main(int argc, char *argv[])
    int u=0;
 
    int arr[rows][cols];
-   int sizeOfArray = sizeof arr/ sizeof arr[0];
-  
+   int kzck[rows][cols];
+    int looprow;
+   int loopcol;
    for(looprow = 0; looprow < rows; looprow++){
-     
       for(loopcol = 0; loopcol < cols; loopcol++){
-      int randomnumber = rand() % 2;
-      if(randomnumber==0 && u<Initial_Active_Cases){
-            arr[looprow][loopcol] = 0;
-            u++;
-      }else{
-             arr[looprow][loopcol] = 1;
+            arr[looprow][loopcol] = 1;
+            kzck[looprow][loopcol] =-1;
+        
+    }
+   }
+   
+   int start_count = 0;
+   while(start_count<Initial_Active_Cases){
+       int row_index = rand()%rows;
+       int col_index = rand()%cols;
+       if(arr[row_index][col_index]==1){
+           arr[row_index][col_index]=0;
+           kzck[row_index][col_index]=0;
+           start_count++;
+       }
+   }
+   
+       int p,r; 
+        for(p = 0; p<rows; p++) 
+        { 
+         printf("\n"); 
+         for(r = 0; r<cols; r++) { 
+           printf("%d\t", arr[p][r]); 
+         } 
         }
-
+        printf("\n");
+   
+   int simulation_cycle;
+   for(simulation_cycle=0;simulation_cycle<10;simulation_cycle++){
+       
+       //Spread the virus
+       int f;
+       int h;
+        for(f=0;f<rows;f++){
+           for(h=0;h<cols;h++){
+               if(arr[f][h]==0){
+                   if(kzck[f][h]==4){
+                       int dead = rand()%100;
+                       if(dead<3){
+                          arr[f][h]=-1; //-1 indicates the dead person
+                       }else{
+                           arr[f][h]=2; //2 indicates the people who was infected before and healty now.
+                       }
+                   }else{
+                        kzck[f][h]++;
+                   }
+                  
+               }
+               
+           }
+        }
+       int g;
+       int y;
+       for(g=0;g<rows;g++){
+           for(y=0;y<cols;y++){
+                if(arr[g][y]==0&kzck[g][y]>0){
+                    if(g!=0&&arr[g-1][y]==1){
+                        int isInfected = rand()%5;
+                        if(isInfected<3){ //indicates the %60 rate
+                            arr[g-1][y]=0;
+                            kzck[g-1][y]=0;
+                        }
+                        
+                    }
+                    if(g!=rows-1&&arr[g+1][y]==1){
+                        int isInfected = rand()%5;
+                        if(isInfected<3){
+                            arr[g+1][y]=0;
+                            kzck[g+1][y]=0;
+                        }
+                        
+                    }
+                    if(y!=0&&arr[g][y-1]==1){
+                        int isInfected = rand()%5;
+                        if(isInfected<3){
+                            arr[g][y-1]=0;
+                            kzck[g][y-1]=0;
+                        }
+                        
+                    }
+                    if(y!=cols-1&&arr[g][y+1]==1){
+                        int isInfected = rand()%5;
+                        if(isInfected<3){
+                            arr[g][y+1]=0;
+                            kzck[g][y+1]=0;
+                        }
+                        
+                    }
+                    
+                }
+            
+               
+           }
+       }
+       
+ 
+        for(p = 0; p<rows; p++) 
+        { 
+         printf("\n"); 
+         for(r = 0; r<cols; r++) { 
+           printf("%d\t", arr[p][r]); 
+         } 
+        }
+        printf("\n");
+        
+        printf("*****************************************\n");
+        //     for(p = 0; p<rows; p++) 
+        // { 
+        //  printf("\n"); 
+        //  for(r = 0; r<cols; r++) { 
+        //   printf("%d\t", kzck[p][r]); 
+        //  } 
+        // }
+        // printf("\n\n\n");
+       
+       
+       
    }
+   
 
-   }
 
  
-   int p,r; 
+
    for(p = 0; p<rows; p++) 
    { 
      printf("\n"); 
      for(r = 0; r<cols; r++) { 
        printf("%d\t", arr[p][r]); 
      } 
-   } 
+   }
+   printf("\n");
   
     return 0;
-}
+} 
+
+
+
+
+
+
+
+    
 
 
 
