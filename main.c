@@ -72,8 +72,10 @@ int main(int argc, char *argv[])
     k = 1;
     b=0; //array
     printf("\n");
+
     sizeOfGrid = rows * cols;
     Initial_Active_Cases = sizeOfGrid * 5/100;
+
    /* Intializes random number generator */
    srand((unsigned) time(&t));
 
@@ -102,7 +104,7 @@ int main(int argc, char *argv[])
        }
    }
 
-    FILE *file = fopen("file.txt", "w");
+    FILE *file = fopen("file.txt", "w"); //opening file.txt file in write mode.
    if (file == NULL){
     printf("Error opening file!\n");
     exit(1);
