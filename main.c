@@ -102,16 +102,23 @@ int main(int argc, char *argv[])
        }
    }
 
+    FILE *file = fopen("file.txt", "w");
+   if (file == NULL){
+    printf("Error opening file!\n");
+    exit(1);
+   }
+
+
      //prints the content of whole array.  
        int p,r; 
         for(p = 0; p<rows; p++) 
         { 
-         printf("\n"); 
+         fprintf(file, "\n"); 
          for(r = 0; r<cols; r++) { 
-           printf("%d\t", arr[p][r]); 
+          fprintf(file, "%d\t", arr[p][r]); 
          } 
         }
-        printf("\n");
+        fprintf(file, "\n");
    
    int simulation_cycle;
    for(simulation_cycle=0;simulation_cycle<10;simulation_cycle++){
@@ -183,36 +190,40 @@ int main(int argc, char *argv[])
        
  	//printing the content of whole array.
         for(p = 0; p<rows; p++) 
-        { 
-         printf("\n"); 
+        {
+         fprintf(file, "\n");  
          for(r = 0; r<cols; r++) { 
-           printf("%d\t", arr[p][r]); 
+           fprintf(file, "%d\t", arr[p][r]);
          } 
         }
-        printf("\n");
+        fprintf(file, "\n");
         
-        printf("*****************************************\n");
-       
-       
-       
-       
-   }
+
+    }
    
-
-
-  
    //printing the content of whole array.
    for(p = 0; p<rows; p++) 
    { 
-     printf("\n"); 
+     fprintf(file, "\n");
      for(r = 0; r<cols; r++) { 
-       printf("%d\t", arr[p][r]); 
+       fprintf(file, "%d\t", arr[p][r]); 
      } 
    }
-   printf("\n");
+   fprintf(file, "\n");
+
+   fclose(file);
   
     return 0;
 } 
+
+
+
+
+
+
+
+    
+
 
 
 
