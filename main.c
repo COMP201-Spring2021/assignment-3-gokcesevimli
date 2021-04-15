@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-  double Social_Distancing;
+  int Social_Distancing;
   int Simulation_Length;
   int Random_seed;
 
@@ -43,47 +43,46 @@ int main(int argc, char *argv[])
     time_t t;
 
     /* Input rows and columns from user */
-    printf("Enter number of rows: ");
-    scanf("%d", &rows);
-    printf("Enter number of columns: ");
-    scanf("%d", &cols);
+    // printf("Enter number of rows: ");
+    // scanf("%d", &rows);
+    // printf("Enter number of columns: ");
+    // scanf("%d", &cols);
 
     char *m;
     int w;
     for(w=1; w<5;w++){ //4 arguments can be given by the user.
       long conv = strtol(argv[w], &m, 10); //takes the given argument and convert it to long.
       if(w==1){
-        conv == rows;
-        printf("Arg 1 is %ld", conv);
+        rows=conv;
       }else if(w==2){
-        conv == Social_Distancing;
-        printf("Arg 1 is, %ld", conv);
+        Social_Distancing=conv;
       }else if(w==3){
-        conv == Simulation_Length;
-        printf("Arg 1 is %ld ", conv);
+        Simulation_Length=conv;
       }else{
-        conv == Random_seed;
-        printf("Arg 1 is %ld", conv);
+        t=conv;
       }
     }
-  
-
+   // printf("rows is %d\n",rows);
+   // printf("Social_Distancing is %d\n",Social_Distancing);
+   // printf("Simulation_Length is %d\n",Simulation_Length);
+   //printf("t is %d",t);
+   // cols=rows;
 
     k = 1;
-    b=0; //array
+    b = 0; //array
     printf("\n");
 
     sizeOfGrid = rows * cols;
     Initial_Active_Cases = sizeOfGrid * 5/100;
 
    /* Intializes random number generator */
-   srand((unsigned) time(&t));
+   srand(t);
 
    int u=0;
 
    int arr[rows][cols];
    int kzck[rows][cols];
-    int looprow;
+   int looprow;
    int loopcol;
    for(looprow = 0; looprow < rows; looprow++){
       for(loopcol = 0; loopcol < cols; loopcol++){
@@ -110,20 +109,31 @@ int main(int argc, char *argv[])
     exit(1);
    }
 
-
-     //prints the content of whole array.  
-       int p,r; 
-        for(p = 0; p<rows; p++) 
-        { 
-         fprintf(file, "\n"); 
-         for(r = 0; r<cols; r++) { 
-          fprintf(file, "%d\t", arr[p][r]); 
-         } 
-        }
-        fprintf(file, "\n");
+    //prints the content of whole array.  
+    
+    int p,r; 
+    for(p = 0; p<rows; p++) { 
+        fprintf(file, "\n"); 
+        for(r = 0; r<cols; r++) { 
+            if(arr[p][r]==0){
+                fprintf(file, "*\t"); 
+            }
+            else if(arr[p][r]==1){
+                fprintf(file, "1\t"); 
+            }
+            else if(arr[p][r]==-1){
+                fprintf(file, "0\t"); 
+            }
+            else if(arr[p][r]==2){
+               fprintf(file, "1\t"); 
+            }
+            
+        } 
+    }
+    fprintf(file, "\n");
    
    int simulation_cycle;
-   for(simulation_cycle=0;simulation_cycle<10;simulation_cycle++){
+   for(simulation_cycle=0;simulation_cycle<Simulation_Length;simulation_cycle++){
        
        //Spreading the virus
        int f;
@@ -136,7 +146,7 @@ int main(int argc, char *argv[])
                        if(dead<3){ //indicates the fatality rate 3/100.
                           arr[f][h]=-1; //-1 indicates the dead person
                        }else{
-                           arr[f][h]=2; //2 indicates the people who was infected before and healty now.(Recover_Rate)
+                          arr[f][h]=2; //2 indicates the people who was infected before and healty now.(Recover_Rate)
                        }
                    }else{
                         kzck[f][h]++; //incrementing the number of cycles encountered.
@@ -150,34 +160,34 @@ int main(int argc, char *argv[])
        int y;
        for(g=0;g<rows;g++){
            for(y=0;y<cols;y++){
-                if(arr[g][y]==0&kzck[g][y]>0){ //if the person is sick
+                if(arr[g][y]==0 & kzck[g][y]>0){ //if the person is sick
                     if(g!=0&&arr[g-1][y]==1){ 
-                        int isInfected = rand()%5;
-                        if(isInfected<3){ //indicates the %60 rate
+                        int isInfected = rand()%100;
+                        if(isInfected<Social_Distancing){ //indicates the %60 rate
                             arr[g-1][y]=0; //spreading the virus.
                             kzck[g-1][y]=0;
                         }
                         
                     }
                     if(g!=rows-1&&arr[g+1][y]==1){
-                        int isInfected = rand()%5;
-                        if(isInfected<3){
+                        int isInfected = rand()%100;
+                        if(isInfected<Social_Distancing){
                             arr[g+1][y]=0;
                             kzck[g+1][y]=0;
                         }
                         
                     }
                     if(y!=0&&arr[g][y-1]==1){
-                        int isInfected = rand()%5;
-                        if(isInfected<3){
+                        int isInfected = rand()%100;
+                        if(isInfected<Social_Distancing){
                             arr[g][y-1]=0; 
                             kzck[g][y-1]=0;
                         }
                         
                     }
                     if(y!=cols-1&&arr[g][y+1]==1){
-                        int isInfected = rand()%5;
-                        if(isInfected<3){
+                        int isInfected = rand()%100;
+                        if(isInfected<Social_Distancing){
                             arr[g][y+1]=0;
                             kzck[g][y+1]=0;
                         }
@@ -189,34 +199,42 @@ int main(int argc, char *argv[])
                
            }
        }
-       
- 	//printing the content of whole array.
-        for(p = 0; p<rows; p++) 
-        {
-         fprintf(file, "\n");  
-         for(r = 0; r<cols; r++) { 
-           fprintf(file, "%d\t", arr[p][r]);
-         } 
+           
+     	//printing the content of whole array.
+        for(p = 0; p<rows; p++) { 
+            fprintf(file, "\n"); 
+            for(r = 0; r<cols; r++) { 
+                if(arr[p][r]==0){
+                    fprintf(file, "*\t");  
+                }
+                else if(arr[p][r]==1){
+                    fprintf(file, "1\t"); 
+                }
+                else if(arr[p][r]==-1){
+                    fprintf(file, "0\t"); 
+                }
+                else if(arr[p][r]==2){
+                   fprintf(file, "1\t"); 
+                }
+                
+            } 
         }
         fprintf(file, "\n");
-        
-
     }
-   
-   //printing the content of whole array.
-   for(p = 0; p<rows; p++) 
-   { 
-     fprintf(file, "\n");
-     for(r = 0; r<cols; r++) { 
-       fprintf(file, "%d\t", arr[p][r]); 
-     } 
-   }
-   fprintf(file, "\n");
-
-   fclose(file);
-  
+    fclose(file);
     return 0;
 } 
+                      
+                        
+                          
+                        
+                        
+                    
+                   
+                        
+                            
+                    
+             
 
 
 
