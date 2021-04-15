@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
 
     char *m;
     int w;
-    for(w=1; w<5;w++){
-      long conv = strtol(argv[w], &m, 10);
+    for(w=1; w<5;w++){ //4 arguments can be given by the user.
+      long conv = strtol(argv[w], &m, 10); //takes the given argument and convert it to long.
       if(w==1){
         conv == rows;
         printf("Arg 1 is %ld", conv);
@@ -85,23 +85,24 @@ int main(int argc, char *argv[])
    int loopcol;
    for(looprow = 0; looprow < rows; looprow++){
       for(loopcol = 0; loopcol < cols; loopcol++){
-            arr[looprow][loopcol] = 1;
+            arr[looprow][loopcol] = 1; //initializing whole grid array with 1's.
             kzck[looprow][loopcol] =-1; //keeps the number of cycles.
         
     }
    }
    
    int start_count = 0;
-   while(start_count<Initial_Active_Cases){
-       int row_index = rand()%rows;
-       int col_index = rand()%cols;
-       if(arr[row_index][col_index]==1){
-           arr[row_index][col_index]=0;
+   while(start_count<Initial_Active_Cases){ //goes until it reaches the number of initial active cases.
+       int row_index = rand()%rows; //randomly takes the index of the row.
+       int col_index = rand()%cols; //randomly takes the index of column.
+       if(arr[row_index][col_index]==1){ //if the randomly chosen person is healthy  
+           arr[row_index][col_index]=0; //making the person sick
            kzck[row_index][col_index]=0;
            start_count++;
        }
    }
-   
+
+     //prints the content of whole array.  
        int p,r; 
         for(p = 0; p<rows; p++) 
         { 
@@ -115,21 +116,21 @@ int main(int argc, char *argv[])
    int simulation_cycle;
    for(simulation_cycle=0;simulation_cycle<10;simulation_cycle++){
        
-       //Spread the virus
+       //Spreading the virus
        int f;
        int h;
         for(f=0;f<rows;f++){
            for(h=0;h<cols;h++){
-               if(arr[f][h]==0){
-                   if(kzck[f][h]==4){
+               if(arr[f][h]==0){ //if the person is sick
+                   if(kzck[f][h]==4){ //if 4 cycles are passed
                        int dead = rand()%100;
-                       if(dead<3){
+                       if(dead<3){ //indicates the fatality rate 3/100.
                           arr[f][h]=-1; //-1 indicates the dead person
                        }else{
-                           arr[f][h]=2; //2 indicates the people who was infected before and healty now.
+                           arr[f][h]=2; //2 indicates the people who was infected before and healty now.(Recover_Rate)
                        }
                    }else{
-                        kzck[f][h]++;
+                        kzck[f][h]++; //incrementing the number of cycles encountered.
                    }
                   
                }
@@ -140,11 +141,11 @@ int main(int argc, char *argv[])
        int y;
        for(g=0;g<rows;g++){
            for(y=0;y<cols;y++){
-                if(arr[g][y]==0&kzck[g][y]>0){
-                    if(g!=0&&arr[g-1][y]==1){
+                if(arr[g][y]==0&kzck[g][y]>0){ //if the person is sick
+                    if(g!=0&&arr[g-1][y]==1){ 
                         int isInfected = rand()%5;
                         if(isInfected<3){ //indicates the %60 rate
-                            arr[g-1][y]=0;
+                            arr[g-1][y]=0; //spreading the virus.
                             kzck[g-1][y]=0;
                         }
                         
@@ -160,7 +161,7 @@ int main(int argc, char *argv[])
                     if(y!=0&&arr[g][y-1]==1){
                         int isInfected = rand()%5;
                         if(isInfected<3){
-                            arr[g][y-1]=0;
+                            arr[g][y-1]=0; 
                             kzck[g][y-1]=0;
                         }
                         
@@ -180,7 +181,7 @@ int main(int argc, char *argv[])
            }
        }
        
- 
+ 	//printing the content of whole array.
         for(p = 0; p<rows; p++) 
         { 
          printf("\n"); 
@@ -191,14 +192,7 @@ int main(int argc, char *argv[])
         printf("\n");
         
         printf("*****************************************\n");
-        //     for(p = 0; p<rows; p++) 
-        // { 
-        //  printf("\n"); 
-        //  for(r = 0; r<cols; r++) { 
-        //   printf("%d\t", kzck[p][r]); 
-        //  } 
-        // }
-        // printf("\n\n\n");
+       
        
        
        
@@ -206,8 +200,8 @@ int main(int argc, char *argv[])
    
 
 
- 
-
+  
+   //printing the content of whole array.
    for(p = 0; p<rows; p++) 
    { 
      printf("\n"); 
