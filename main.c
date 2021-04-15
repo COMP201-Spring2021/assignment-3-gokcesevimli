@@ -42,31 +42,20 @@ int main(int argc, char *argv[])
     
     time_t t;
 
-    /* Input rows and columns from user */
-    // printf("Enter number of rows: ");
-    // scanf("%d", &rows);
-    // printf("Enter number of columns: ");
-    // scanf("%d", &cols);
-
     char *m;
     int w;
     for(w=1; w<5;w++){ //4 arguments can be given by the user.
       long conv = strtol(argv[w], &m, 10); //takes the given argument and convert it to long.
       if(w==1){
-        rows=conv;
+        rows=conv; //first argument is Word size, which is equal to number of rows.
       }else if(w==2){
-        Social_Distancing=conv;
+        Social_Distancing=conv; //second argument is the social distancing percentage.
       }else if(w==3){
-        Simulation_Length=conv;
+        Simulation_Length=conv; //third argument is the simulation length.
       }else{
-        t=conv;
+        t=conv; //fourth argument is the random seed.
       }
     }
-   // printf("rows is %d\n",rows);
-   // printf("Social_Distancing is %d\n",Social_Distancing);
-   // printf("Simulation_Length is %d\n",Simulation_Length);
-   //printf("t is %d",t);
-   // cols=rows;
 
     k = 1;
     b = 0; //array
@@ -98,7 +87,7 @@ int main(int argc, char *argv[])
        int col_index = rand()%cols; //randomly takes the index of column.
        if(arr[row_index][col_index]==1){ //if the randomly chosen person is healthy  
            arr[row_index][col_index]=0; //making the person sick
-           kzck[row_index][col_index]=0;
+           kzck[row_index][col_index]=0;//the number of cycles which the person encounters.
            start_count++;
        }
    }
@@ -116,16 +105,16 @@ int main(int argc, char *argv[])
         fprintf(file, "\n"); 
         for(r = 0; r<cols; r++) { 
             if(arr[p][r]==0){
-                fprintf(file, "*\t"); 
+                fprintf(file, "*\t"); //* indicates the active case.
             }
             else if(arr[p][r]==1){
-                fprintf(file, "1\t"); 
+                fprintf(file, "1\t"); //1 indicates the healthy people.
             }
             else if(arr[p][r]==-1){
-                fprintf(file, "0\t"); 
+                fprintf(file, "0\t"); //0 indicates the dead people.
             }
-            else if(arr[p][r]==2){
-               fprintf(file, "1\t"); 
+            else if(arr[p][r]==2){ //2 indicates the people who was sick and healthy now.
+               fprintf(file, "1\t"); // 1 indicates the healthy people.
             }
             
         } 
@@ -161,14 +150,16 @@ int main(int argc, char *argv[])
        for(g=0;g<rows;g++){
            for(y=0;y<cols;y++){
                 if(arr[g][y]==0 & kzck[g][y]>0){ //if the person is sick
+                    //spreading virus to left neighbour.
                     if(g!=0&&arr[g-1][y]==1){ 
                         int isInfected = rand()%100;
-                        if(isInfected<Social_Distancing){ //indicates the %60 rate
+                        if(isInfected<Social_Distancing){ //indicates the social distancing rate, which is given as argument.
                             arr[g-1][y]=0; //spreading the virus.
-                            kzck[g-1][y]=0;
+                            kzck[g-1][y]=0;//the cyle of the new sick person just begins.
                         }
                         
                     }
+		    //spreading the virus to right neighbour.
                     if(g!=rows-1&&arr[g+1][y]==1){
                         int isInfected = rand()%100;
                         if(isInfected<Social_Distancing){
@@ -177,6 +168,7 @@ int main(int argc, char *argv[])
                         }
                         
                     }
+		   //spreading the virus to above neighbour.
                     if(y!=0&&arr[g][y-1]==1){
                         int isInfected = rand()%100;
                         if(isInfected<Social_Distancing){
@@ -185,6 +177,7 @@ int main(int argc, char *argv[])
                         }
                         
                     }
+		    //spreading the virus to below neighbour.
                     if(y!=cols-1&&arr[g][y+1]==1){
                         int isInfected = rand()%100;
                         if(isInfected<Social_Distancing){
@@ -200,28 +193,28 @@ int main(int argc, char *argv[])
            }
        }
            
-     	//printing the content of whole array.
+     	//printing the content of whole array according to its correct contents 1,0 and *.
         for(p = 0; p<rows; p++) { 
             fprintf(file, "\n"); 
             for(r = 0; r<cols; r++) { 
                 if(arr[p][r]==0){
-                    fprintf(file, "*\t");  
+                    fprintf(file, "*\t"); //* indicates the active case 
                 }
                 else if(arr[p][r]==1){
-                    fprintf(file, "1\t"); 
+                    fprintf(file, "1\t"); // 1 indicates the healthy people
                 }
                 else if(arr[p][r]==-1){
-                    fprintf(file, "0\t"); 
+                    fprintf(file, "0\t"); //0 indicates the dead people
                 }
-                else if(arr[p][r]==2){
-                   fprintf(file, "1\t"); 
+                else if(arr[p][r]==2){ //2 indicates the people who is encountered with this illness and healthy now.
+                   fprintf(file, "1\t"); //so it is showed as 1, which shows healthy people.
                 }
                 
             } 
         }
         fprintf(file, "\n");
     }
-    fclose(file);
+    fclose(file); //closing the file.txt file
     return 0;
 } 
                       
